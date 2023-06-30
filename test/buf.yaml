@@ -1,6 +1,6 @@
 version: v1
 deps:
-  - buf.build/rrrkren/proto-gen-go-grpc-scopes
+  - buf.build/rrrkren/protoc-gen-go-grpc-scopes
   - buf.build/googleapis/googleapis
 lint:
   use:

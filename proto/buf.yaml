@@ -1,5 +1,5 @@
 version: v1
-name: buf.build/rrrkren/proto-gen-go-grpc-scopes
+name: buf.build/rrrkren/protoc-gen-go-grpc-scopes
 breaking:
   use:
     - FILE

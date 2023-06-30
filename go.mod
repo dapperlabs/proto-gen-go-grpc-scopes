@@ -1,4 +1,4 @@
-module github.com/dapperlabs/proto-gen-go-grpc-scopes
+module github.com/dapperlabs/protoc-gen-go-grpc-scopes
 
 go 1.20
 

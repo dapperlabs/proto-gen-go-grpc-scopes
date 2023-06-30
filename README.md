@@ -1,1 +1,1 @@
-# proto-gen-go-grpc-scopes
+# protoc-gen-go-grpc-scopes

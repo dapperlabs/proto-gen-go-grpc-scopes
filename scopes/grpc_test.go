@@ -5,8 +5,8 @@ import (
 	"net"
 	"testing"
 
-	"github.com/dapperlabs/proto-gen-go-grpc-scopes/scopes"
-	"github.com/dapperlabs/proto-gen-go-grpc-scopes/test/testgen"
+	"github.com/dapperlabs/protoc-gen-go-grpc-scopes/scopes"
+	"github.com/dapperlabs/protoc-gen-go-grpc-scopes/test/testgen"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"

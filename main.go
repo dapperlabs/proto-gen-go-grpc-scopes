@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/dapperlabs/proto-gen-go-grpc-scopes/scopesproto"
+	"github.com/dapperlabs/protoc-gen-go-grpc-scopes/scopesproto"
 	"github.com/golang/protobuf/proto"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/descriptorpb"

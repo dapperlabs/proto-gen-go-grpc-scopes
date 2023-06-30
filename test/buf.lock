@@ -7,5 +7,5 @@ deps:
     commit: cc916c31859748a68fd229a3c8d7a2e8
   - remote: buf.build
     owner: rrrkren
-    repository: proto-gen-go-grpc-scopes
-    commit: 20df44e25f3547579e40f91d266d9d31
+    repository: protoc-gen-go-grpc-scopes
+    commit: 1ca8d5541c154b60afd6d65d7f63acee
