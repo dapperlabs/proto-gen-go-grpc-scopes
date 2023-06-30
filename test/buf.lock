@@ -8,4 +8,4 @@ deps:
   - remote: buf.build
     owner: rrrkren
     repository: protoc-gen-go-grpc-scopes
-    commit: 1ca8d5541c154b60afd6d65d7f63acee
+    commit: 65b5b0c776414d3c8f89b8310b77ec1c

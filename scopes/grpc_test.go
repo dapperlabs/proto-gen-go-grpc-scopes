@@ -18,6 +18,9 @@ import (
 func TestScopeValidationInterceptor(t *testing.T) {
 	server := grpc.NewServer(
 		grpc.UnaryInterceptor(scopes.ScopeValidationInterceptor(func(ctx context.Context, scopes []string) error {
+			if len(scopes) == 0 {
+				return nil
+			}
 			md, ok := metadata.FromIncomingContext(ctx)
 			if !ok {
 				return status.Error(codes.Unauthenticated, "missing metadata")
@@ -53,7 +56,7 @@ func TestScopeValidationInterceptor(t *testing.T) {
 	ctx := metadata.NewOutgoingContext(context.Background(), header)
 
 	res, err := client.Ping(ctx, &testgen.PingRequest{})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, "pong", res.GetPong())
 
 	res, err = client.Ping(context.Background(), &testgen.PingRequest{})
@@ -63,9 +66,17 @@ func TestScopeValidationInterceptor(t *testing.T) {
 	ctx = metadata.NewOutgoingContext(context.Background(), header)
 	res, err = client.Ping(ctx, &testgen.PingRequest{})
 	assert.Equal(t, codes.PermissionDenied, status.Code(err))
+
+	res, err = client.FreePing(ctx, &testgen.PingRequest{})
+	require.NoError(t, err)
+	assert.Equal(t, "free pong", res.GetPong())
 }
 
 type ScopeValidatorServer struct {
+}
+
+func (s ScopeValidatorServer) FreePing(ctx context.Context, request *testgen.PingRequest) (*testgen.PingResponse, error) {
+	return &testgen.PingResponse{Pong: "free pong"}, nil
 }
 
 func (s ScopeValidatorServer) Ping(ctx context.Context, request *testgen.PingRequest) (*testgen.PingResponse, error) {

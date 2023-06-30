@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             (unknown)
-// source: test.proto
+// source: testrpc.proto
 
 package testgen
 
@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PingPongClient interface {
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
+	FreePing(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 }
 
 type pingPongClient struct {
@@ -42,11 +43,21 @@ func (c *pingPongClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc
 	return out, nil
 }
 
+func (c *pingPongClient) FreePing(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
+	out := new(PingResponse)
+	err := c.cc.Invoke(ctx, "/testscopes.PingPong/FreePing", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PingPongServer is the server API for PingPong service.
 // All implementations should embed UnimplementedPingPongServer
 // for forward compatibility
 type PingPongServer interface {
 	Ping(context.Context, *PingRequest) (*PingResponse, error)
+	FreePing(context.Context, *PingRequest) (*PingResponse, error)
 }
 
 // UnimplementedPingPongServer should be embedded to have forward compatible implementations.
@@ -55,6 +66,9 @@ type UnimplementedPingPongServer struct {
 
 func (UnimplementedPingPongServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
+}
+func (UnimplementedPingPongServer) FreePing(context.Context, *PingRequest) (*PingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FreePing not implemented")
 }
 
 // UnsafePingPongServer may be embedded to opt out of forward compatibility for this service.
@@ -86,6 +100,24 @@ func _PingPong_Ping_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PingPong_FreePing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PingPongServer).FreePing(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/testscopes.PingPong/FreePing",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PingPongServer).FreePing(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PingPong_ServiceDesc is the grpc.ServiceDesc for PingPong service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -97,7 +129,11 @@ var PingPong_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "Ping",
 			Handler:    _PingPong_Ping_Handler,
 		},
+		{
+			MethodName: "FreePing",
+			Handler:    _PingPong_FreePing_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "test.proto",
+	Metadata: "testrpc.proto",
 }

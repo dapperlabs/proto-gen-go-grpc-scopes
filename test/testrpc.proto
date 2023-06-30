@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package testscopes;
+
+option go_package = "github.com/dapperlabs/protoc-gen-go-grpc-scopes/test/testgen";
+
+import "scopes.proto";
+import "test.proto";
+
+service PingPong {
+  rpc Ping (PingRequest) returns (PingResponse) {
+    option (scopes.required_method_scopes).scopes = "scope1";
+    option (scopes.required_method_scopes).scopes = "scope2";
+  }
+  rpc FreePing (PingRequest) returns (PingResponse);
+}

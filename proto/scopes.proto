@@ -11,6 +11,6 @@ message RequiredScopesOption {
   repeated string scopes = 1;
 }
 
-extend google.protobuf.MessageOptions {
-  RequiredScopesOption required_req_scopes = 50000; // 50000 is an example, replace it with your desired field number
+extend google.protobuf.MethodOptions {
+  RequiredScopesOption required_method_scopes = 70000;
 }

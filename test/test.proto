@@ -4,14 +4,7 @@ package testscopes;
 
 option go_package = "github.com/dapperlabs/protoc-gen-go-grpc-scopes/test/testgen";
 
-import "scopes.proto";
-service PingPong {
-  rpc Ping (PingRequest) returns (PingResponse);
-}
-
 message PingRequest {
-  option (scopes.required_req_scopes).scopes = "scope1";
-  option (scopes.required_req_scopes).scopes = "scope2";
   string ping = 1;
 }
 
